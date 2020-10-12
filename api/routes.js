@@ -210,16 +210,11 @@ router.post('/courses', courseValidator, authenticateUser, asyncHandler(async (r
         let course = req.body;
         course.userId = user.id;
 
-        course = await Course.create(course);
-
+        course = await Course.create(course)
         res.location('/courses/' + course.id);
-        console.log(res)
 
         // Set the status to 201 Created and end the response.
-        return res.status(201).header({
-          'Access-Control-Expose-Headers': 'Location',
-          'Location': `/courses/${course.id}`
-        }).end();
+        return res.status(201).json(course).end();
     }
 
 

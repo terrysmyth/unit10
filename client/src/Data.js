@@ -5,7 +5,7 @@ export default class Data {
   api(path, method = 'GET', body = null, requiresAuth = false, credentials = null) {
     // Fetches info from localhost:5000/api
     const url = config.apiBaseUrl + path;
-  
+
     const options = {
       method,
       headers: {
@@ -18,7 +18,7 @@ export default class Data {
     }
 
     // Check if auth is required
-    if (requiresAuth && credentials !== null && body !== null) {    
+    if (requiresAuth && credentials !== null && path != "/users") { 
       options.headers['Authorization'] = `Basic ${credentials}`;
     } 
     else if (requiresAuth) {    
@@ -66,7 +66,8 @@ export default class Data {
   async createCourse(course, encodedCredentials) {
     const response = await this.api('/courses', 'POST', course, true, encodedCredentials);
     if (response.status === 201) {
-      return response;
+      let blah = response.json().then(data => data)
+      return blah;
     }
     else if (response.status === 400) {
       return response.json().then(data => {
@@ -78,5 +79,41 @@ export default class Data {
     }
   }
 
+  async deleteCourse (course, user) {
+
+    const response = await this.api(`/courses/${course.id}`, 'DELETE', null, true, user.encodedCredentials)
+    
+    if (response.status === 204) {
+      return [];
+    }
+    else if (response.status === 400) {
+      return response.json().then(data => {
+        return data.errors;
+      });
+    }
+    else {
+      throw new Error();
+    }
+    return [];
+  }
+
+  async updateCourse (course, user) {
+
+    const response = await this.api(`/courses/${course.courseId}`, 'PUT', course, true, user.encodedCredentials)
+    if (response.status === 204) {
+      return [];
+    }
+    else if (response.status === 400) {
+      return response.json().then(data => {
+        return data.errors;
+      });
+    }
+    else {
+      throw new Error();
+    }
+    return [];
+
+    return course
+  }
 
 }

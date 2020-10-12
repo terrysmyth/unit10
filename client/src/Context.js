@@ -25,7 +25,9 @@ export class Provider extends Component {
       actions: {
         signIn: this.signIn,
         signOut: this.signOut,
-        createCourse: this.createCourse
+        createCourse: this.createCourse,
+        deleteCourse: this.deleteCourse,
+        updateCourse: this.updateCourse
       }
     };
     
@@ -41,6 +43,7 @@ export class Provider extends Component {
   
   signIn = async (username, password) => {
     const user = await this.data.getUser(username, password);
+    console.log(user)
     if (user !== null) {
       this.setState(() => {
         return {
@@ -65,6 +68,20 @@ export class Provider extends Component {
   createCourse = async (course, user) => {
     const newCourse = await this.data.createCourse(course, user.encodedCredentials);
     return newCourse;
+  }
+
+  deleteCourse = async ( course, user) => {
+
+    const info = await this.data.deleteCourse(course, user);
+
+    return info;
+
+  }
+
+  updateCourse = async (course, user) => {
+    const info = await this.data.updateCourse(course, user);
+    console.log(info)
+    return info;
   }
 
 

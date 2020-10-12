@@ -22,7 +22,6 @@ export default class CreateCourse extends Component {
     render() {
         const { context } = this.props;
         const authUser = context.authenticatedUser;
-
         const results = this.state.data.map(result => <Courseholder data={result} key={result.id}/>)
 
         return (

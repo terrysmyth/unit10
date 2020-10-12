@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import Form from './Form';
 
 export default class CreateCourse extends Component  {
@@ -130,7 +129,7 @@ export default class CreateCourse extends Component  {
                // Else success
                console.log(errors)
                console.log(`Course "${courseInfo.title}": was succesfully created!`);
-               this.props.history.push('/')
+               this.props.history.push(`/courses/${errors.id}`)
              }
 
           })
